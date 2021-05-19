@@ -10,9 +10,9 @@ data "ibm_resource_group" "resource" {
 }
 
 resource "ibm_is_vpc" "vpc1" {
-  name = "${var.vpc-name}"
+  name = var.vpc-name
   address_prefix_management = "manual"
-  resource_group = "${data.ibm_resource_group.resource.id}"
+  resource_group = "data.ibm_resource_group.resource.id"
 }
 
 ////////////////
@@ -46,7 +46,7 @@ resource "ibm_is_subnet" "websubnet1" {
   network_acl     = "${ibm_is_network_acl.isBasicACL.id}"
   public_gateway  = "${ibm_is_public_gateway.pubgw-zone1.id}"
   ipv4_cidr_block = "${var.subnet-zone1}"
-  depends_on      = ["ibm_is_vpc_address_prefix.prefix_z1"]
+  depends_on      = [ibm_is_vpc_address_prefix.prefix_z1]
 
   provisioner "local-exec" {
     command = "sleep 300"
@@ -76,10 +76,11 @@ resource "ibm_is_instance" "web-instance" {
   image   = "${var.image}"
   profile = "${var.profile}"
 
-  primary_network_interface = {
+  primary_network_interface  {
     subnet = "${ibm_is_subnet.websubnet1.id}"
     security_groups = ["${ibm_is_security_group.public_facing_sg.id}"]
   }
+
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
