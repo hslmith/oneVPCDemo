@@ -1,4 +1,3 @@
-/*
 #################################################
 # Define Cloud-init scripts to run on provisioning
 #################################################
@@ -19,4 +18,3 @@ data "template_cloudinit_config" "cloud-init-config" {
   }
 }
 
-*/
