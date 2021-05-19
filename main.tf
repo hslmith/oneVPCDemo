@@ -12,7 +12,7 @@ data "ibm_resource_group" "resource" {
 resource "ibm_is_vpc" "vpc1" {
   name = var.vpc-name
   address_prefix_management = "manual"
-  resource_group = "data.ibm_resource_group.resource.id"
+  # resource_group = "data.ibm_resource_group.resource.id"
 }
 
 ////////////////
